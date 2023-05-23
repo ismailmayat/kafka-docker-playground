@@ -113,7 +113,8 @@ curl -X PUT \
                "table.topic.name.template": "${databaseName}.${schemaName}.${tableName}",
                "numeric.mapping": "best_fit",
                "connection.pool.max.size": 20,
-               "redo.log.row.fetch.size": 1,
+               "redo.log.row.fetch.size":100000,
+               "snapshot.row.fetch.size": 100000,
                "topic.creation.redo.include": "redo-log-topic",
                "topic.creation.redo.replication.factor": 1,
                "topic.creation.redo.partitions": 1,
@@ -123,10 +124,20 @@ curl -X PUT \
                "topic.creation.default.partitions": 1,
                "topic.creation.default.cleanup.policy": "delete",
                "lob.topic.name.template": "${databaseName}.${schemaName}.${tableName}.${columnName}",
-               "enable.large.lob.object.support":true
+               "enable.large.lob.object.support":true,
+               "producer.override.linger.ms": "10",
+               "producer.override.batch.size": "500000"
           }' \
      http://localhost:8083/connectors/cdc-oracle11-source/config | jq .
 
 log "Waiting 10s for connector to read existing data"
 sleep 10
 
+
+if [ ! -z "$SQL_DATAGEN" ]
+then
+     DURATION=10
+     log "Injecting data for $DURATION minutes"
+     docker exec -d sql-datagen bash -c "java ${JAVA_OPTS} -jar sql-datagen-1.0-SNAPSHOT-jar-with-dependencies.jar --host oracle --username MYUSER --password password --sidOrServerName XE --sidOrServerNameVal ORCLCDB --maxPoolSize 10 --durationTimeMin $DURATION"
+                                         
+fi
