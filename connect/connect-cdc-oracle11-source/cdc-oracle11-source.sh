@@ -51,7 +51,7 @@ create table CUSTOMERS (
         email VARCHAR(50),
         gender VARCHAR(50),
         club_status VARCHAR(20),
-        comments VARCHAR(4000),
+        comments CLOB,
         create_ts timestamp DEFAULT CURRENT_TIMESTAMP,
         update_ts timestamp
 );
@@ -80,13 +80,13 @@ BEGIN
 END;
 /
 
-insert into CUSTOMERS (id, first_name, last_name, email, gender, club_status, comments) values (1, 'Rica', 'Blaisdell', 'rblaisdell0@rambler.ru', 'Female', 'bronze', 'Universal optimal hierarchy');
-insert into CUSTOMERS (id, first_name, last_name, email, gender, club_status, comments) values (2, 'Ruthie', 'Brockherst', 'rbrockherst1@ow.ly', 'Female', 'platinum', 'Reverse-engineered tangible interface');
-insert into CUSTOMERS (id, first_name, last_name, email, gender, club_status, comments) values (3, 'Mariejeanne', 'Cocci', 'mcocci2@techcrunch.com', 'Female', 'bronze', 'Multi-tiered bandwidth-monitored capability');
-insert into CUSTOMERS (id, first_name, last_name, email, gender, club_status, comments) values (4, 'Hashim', 'Rumke', 'hrumke3@sohu.com', 'Male', 'platinum', 'Self-enabling 24/7 firmware');
-insert into CUSTOMERS (id, first_name, last_name, email, gender, club_status, comments) values (5, 'Hansiain', 'Coda', 'hcoda4@senate.gov', 'Male', 'platinum', 'Centralized full-range approach');
+insert into CUSTOMERS (id, first_name, last_name, email, gender, club_status, comments) values (1, 'Rica', 'Blaisdell', 'rblaisdell0@rambler.ru', 'Female', 'bronze', to_clob('Universal optimal hierarchy'));
+insert into CUSTOMERS (id, first_name, last_name, email, gender, club_status, comments) values (2, 'Ruthie', 'Brockherst', 'rbrockherst1@ow.ly', 'Female', 'platinum', to_clob('Reverse-engineered tangible interface'));
+insert into CUSTOMERS (id, first_name, last_name, email, gender, club_status, comments) values (3, 'Mariejeanne', 'Cocci', 'mcocci2@techcrunch.com', 'Female', 'bronze', to_clob('Multi-tiered bandwidth-monitored capability'));
+insert into CUSTOMERS (id, first_name, last_name, email, gender, club_status, comments) values (4, 'Hashim', 'Rumke', 'hrumke3@sohu.com', 'Male', 'platinum', to_clob('Self-enabling 24/7 firmware'));
+insert into CUSTOMERS (id, first_name, last_name, email, gender, club_status, comments) values (5, 'Hansiain', 'Coda', 'hcoda4@senate.gov', 'Male', 'platinum', to_clob('Centralized full-range approach'));
 
-create table USERS (
+create table SITE_USERS (
                            id NUMBER(10) NOT NULL PRIMARY KEY,
                            first_name VARCHAR(50),
                            last_name VARCHAR(50),
@@ -95,21 +95,21 @@ create table USERS (
                            update_ts timestamp
 );
 
-CREATE SEQUENCE USERS_SEQ START WITH 1;
+CREATE SEQUENCE SITE_USERS_SEQ START WITH 1;
 
-CREATE OR REPLACE TRIGGER USERS_TRIGGER_ID
-BEFORE INSERT ON USERS
+CREATE OR REPLACE TRIGGER SITE_USERS_TRIGGER_ID
+BEFORE INSERT ON SITE_USERS
 FOR EACH ROW
 
 BEGIN
-  SELECT USERS_SEQ.NEXTVAL
+  SELECT SITE_USERS_SEQ.NEXTVAL
   INTO   :new.id
   FROM   dual;
 END;
 /
 
-CREATE OR REPLACE TRIGGER USERS_TRIGGER_TS
-BEFORE INSERT OR UPDATE ON USERS
+CREATE OR REPLACE TRIGGER SITE_USERS_TRIGGER_TS
+BEFORE INSERT OR UPDATE ON SITE_USERS
 REFERENCING NEW AS NEW_ROW
   FOR EACH ROW
 BEGIN
@@ -119,7 +119,7 @@ BEGIN
 END;
 /
 
-INSERT INTO USERS (id, first_name, last_name, data, create_ts, update_ts)
+INSERT INTO SITE_USERS (id, first_name, last_name, data, create_ts, update_ts)
 SELECT
     level,
     'First_Name_' || level,

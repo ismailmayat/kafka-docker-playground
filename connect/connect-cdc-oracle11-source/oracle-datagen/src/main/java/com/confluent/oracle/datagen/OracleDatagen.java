@@ -59,18 +59,23 @@ public class OracleDatagen {
                 try (Connection connection = database.getConnection()) {
                     while (!finishExecution.get()) {
                         connection.setAutoCommit(false);
+
+                        java.sql.Clob clobData = connection.createClob();
+                        clobData.setString(1, String.join(" ",faker.lorem().words(100)));
+
                         PreparedStatement stmt = connection.prepareStatement("insert into CUSTOMERS (first_name, last_name, email, gender, club_status, comments) values (?, ?, ?, ?, ?, ?)");
                         stmt.setString(1, faker.name().firstName());
                         stmt.setString(2, faker.name().lastName());
                         stmt.setString(3, faker.internet().emailAddress());
                         stmt.setString(4, faker.name().prefix());
                         stmt.setString(5, faker.color().name());
-                        stmt.setString(6, faker.lorem().word());
+                        stmt.setClob(6, clobData);
                         stmt.executeUpdate();
                         connection.commit();
                         stmt.close();
 
-                        numTransactions.getAndIncrement();
+                        int row =  numTransactions.getAndIncrement();
+                        log.info("processed row " + row);
                         stmt.close();
                     }
                 } catch (SQLException sqlException) {
