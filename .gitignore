@@ -72,3 +72,6 @@ github_ssh_key_file
 ._github_ssh_key_file
 confluent-hub
 scripts/cli/schema-registry-statistics
+reproduction-models
+
+connect/connect-cdc-oracle11-source/oracle-datagen/.idea/
