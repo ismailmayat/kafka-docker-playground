@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.TimeZone;
 import java.util.logging.Level;
 
 public class OracleDatabase {
@@ -31,6 +32,10 @@ public class OracleDatabase {
   public OracleDatabase(InputParams params){
     this.ds = PoolDataSourceFactory.getPoolDataSource();
     try {
+
+      //see https://stackoverflow.com/a/11810244/719625 if you dont do this then running in docker you get timezone error!
+      TimeZone timeZone = TimeZone.getTimeZone("Europe/London");
+      TimeZone.setDefault(timeZone);
 
       ds.setConnectionFactoryClassName(DATA_SOURCE_CLASS);
       String connectionStr = String.format(URL,params.getHost(),params.getPort(),params.getSidOrServerName(),

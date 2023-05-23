@@ -59,10 +59,8 @@ public class OracleDatagen {
                 try (Connection connection = database.getConnection()) {
                     while (!finishExecution.get()) {
                         connection.setAutoCommit(false);
-
                         java.sql.Clob clobData = connection.createClob();
                         clobData.setString(1, String.join(" ",faker.lorem().words(100)));
-
                         PreparedStatement stmt = connection.prepareStatement("insert into CUSTOMERS (first_name, last_name, email, gender, club_status, comments) values (?, ?, ?, ?, ?, ?)");
                         stmt.setString(1, faker.name().firstName());
                         stmt.setString(2, faker.name().lastName());
