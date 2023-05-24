@@ -58,7 +58,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.confluent.oracle.datagen.OracleDatagen</mainClass>
+                            <mainClass>com.confluent.oracle.datagen.AgdaDataGen</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

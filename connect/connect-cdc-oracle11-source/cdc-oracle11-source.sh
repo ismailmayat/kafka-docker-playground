@@ -86,48 +86,114 @@ insert into CUSTOMERS (id, first_name, last_name, email, gender, club_status, co
 insert into CUSTOMERS (id, first_name, last_name, email, gender, club_status, comments) values (4, 'Hashim', 'Rumke', 'hrumke3@sohu.com', 'Male', 'platinum', to_clob('Self-enabling 24/7 firmware'));
 insert into CUSTOMERS (id, first_name, last_name, email, gender, club_status, comments) values (5, 'Hansiain', 'Coda', 'hcoda4@senate.gov', 'Male', 'platinum', to_clob('Centralized full-range approach'));
 
+CREATE TABLE AGDA (
+    ID NUMBER(10) NOT NULL PRIMARY KEY,
+    PART_NBR NUMBER,
+    PLANT_ID VARCHAR(50),
+    MODIFIED_BY VARCHAR(50),
+    CREATED_DATE timestamp,
+    LAST_MODIFIED_DATE timestamp,
+    VERSION NUMBER,
+    FORECAST NUMBER,
+    CURRENT_ROW NUMBER,
+    TOTAL_ROWS NUMBER,
+    PART_QUANTITY NUMBER,
+    TARGET_DATE VARCHAR(50),
+    SAP_TYPE VARCHAR(50),
+    SAP_PERIOD_TYPE VARCHAR(50),
+    SAP_VERSION VARCHAR(50),
+    MYCLOB CLOB,
+    update_ts timestamp
+);
+
+CREATE SEQUENCE AGDA_SEQ START WITH 1;
+
+CREATE OR REPLACE TRIGGER AGDA_TRIGGER_ID
+BEFORE INSERT ON AGDA
+FOR EACH ROW
+
+BEGIN
+  SELECT AGDA_SEQ.NEXTVAL
+  INTO   :new.id
+  FROM   dual;
+END;
+/
+
+CREATE OR REPLACE TRIGGER AGDA_TRIGGER_TS
+BEFORE INSERT OR UPDATE ON AGDA
+REFERENCING NEW AS NEW_ROW
+  FOR EACH ROW
+BEGIN
+  SELECT SYSDATE
+        INTO :NEW_ROW.UPDATE_TS
+        FROM DUAL;
+END;
+/
+
+INSERT INTO AGDA ( ID, PART_NBR, PLANT_ID, MODIFIED_BY, CREATED_DATE, LAST_MODIFIED_DATE, VERSION, FORECAST, CURRENT_ROW, TOTAL_ROWS, PART_QUANTITY, TARGET_DATE, SAP_TYPE, SAP_PERIOD_TYPE, SAP_VERSION,MYCLOB ) VALUES ( 1, 815873, 'SEBA', 'SYSTEM', TO_TIMESTAMP('2023-05-24 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('2023-05-24 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), 0, 1708, 19391, 19471, 114, '20240507', 'LSF', 'D', '02',to_clob('Juxtaposing ethereal intergalactic manifestations, kaleidoscopic supernovae pulsate relentlessly through the cosmic tapestry, igniting nebulous constellations amidst the boundless expanse. Multidimensional echoes resonate with sublime harmonies as shimmering celestial orbs cascade in symphonic crescendos, evoking ineffable wonder. Serendipitous stardust dances upon the celestial stage, entwining with cosmic melodies, an eternal ballet of celestial majesty. Interstellar galaxies spiral in cosmic choreography, entangling serpentine tendrils across the velvety fabric of the universe, a grand symphony of cosmic marvels. Nebulae pirouette in iridescent swirls, their resplendent hues painting the canvas of eternity, a mesmerizing tableau of astral brilliance.') );
+INSERT INTO AGDA ( ID, PART_NBR, PLANT_ID, MODIFIED_BY, CREATED_DATE, LAST_MODIFIED_DATE, VERSION, FORECAST, CURRENT_ROW, TOTAL_ROWS, PART_QUANTITY, TARGET_DATE, SAP_TYPE, SAP_PERIOD_TYPE, SAP_VERSION,MYCLOB ) VALUES ( 2, 815874, 'SEBA', 'SYSTEM', TO_TIMESTAMP('2023-05-24 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('2023-05-24 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), 0, 1708, 19391, 19471, 114, '20240507', 'LSF', 'D', '02',to_clob('Juxtaposing ethereal intergalactic manifestations, kaleidoscopic supernovae pulsate relentlessly through the cosmic tapestry, igniting nebulous constellations amidst the boundless expanse. Multidimensional echoes resonate with sublime harmonies as shimmering celestial orbs cascade in symphonic crescendos, evoking ineffable wonder. Serendipitous stardust dances upon the celestial stage, entwining with cosmic melodies, an eternal ballet of celestial majesty. Interstellar galaxies spiral in cosmic choreography, entangling serpentine tendrils across the velvety fabric of the universe, a grand symphony of cosmic marvels. Nebulae pirouette in iridescent swirls, their resplendent hues painting the canvas of eternity, a mesmerizing tableau of astral brilliance.') );
+INSERT INTO AGDA ( ID, PART_NBR, PLANT_ID, MODIFIED_BY, CREATED_DATE, LAST_MODIFIED_DATE, VERSION, FORECAST, CURRENT_ROW, TOTAL_ROWS, PART_QUANTITY, TARGET_DATE, SAP_TYPE, SAP_PERIOD_TYPE, SAP_VERSION,MYCLOB ) VALUES ( 3, 815875, 'SEBA', 'SYSTEM', TO_TIMESTAMP('2023-05-24 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('2023-05-24 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), 0, 1708, 19391, 19471, 114, '20240507', 'LSF', 'D', '02',to_clob('Juxtaposing ethereal intergalactic manifestations, kaleidoscopic supernovae pulsate relentlessly through the cosmic tapestry, igniting nebulous constellations amidst the boundless expanse. Multidimensional echoes resonate with sublime harmonies as shimmering celestial orbs cascade in symphonic crescendos, evoking ineffable wonder. Serendipitous stardust dances upon the celestial stage, entwining with cosmic melodies, an eternal ballet of celestial majesty. Interstellar galaxies spiral in cosmic choreography, entangling serpentine tendrils across the velvety fabric of the universe, a grand symphony of cosmic marvels. Nebulae pirouette in iridescent swirls, their resplendent hues painting the canvas of eternity, a mesmerizing tableau of astral brilliance.') );
 EOF
 
 log "Creating Oracle source connector"
 curl -X PUT \
      -H "Content-Type: application/json" \
      --data '{
-               "connector.class": "io.confluent.connect.oracle.cdc.OracleCdcSourceConnector",
-               "tasks.max": 2,
-               "key.converter": "io.confluent.connect.avro.AvroConverter",
-               "key.converter.schema.registry.url": "http://schema-registry:8081",
-               "value.converter": "io.confluent.connect.avro.AvroConverter",
-               "value.converter.schema.registry.url": "http://schema-registry:8081",
-               "confluent.license": "",
-               "confluent.topic.bootstrap.servers": "broker:9092",
-               "confluent.topic.replication.factor": "1",
-               "oracle.server": "oracle",
-               "oracle.port": 1521,
-               "oracle.sid": "XE",
-               "oracle.username": "MYUSER",
-               "oracle.password": "password",
-               "start.from":"snapshot",
-               "redo.log.topic.name": "redo-log-topic",
-               "redo.log.consumer.bootstrap.servers":"broker:9092",
-               "table.inclusion.regex": ".*CUSTOMERS.*",
-               "table.topic.name.template": "${databaseName}.${schemaName}.${tableName}",
-               "numeric.mapping": "best_fit",
-               "connection.pool.max.size": 20,
-               "redo.log.row.fetch.size":100000,
-               "snapshot.row.fetch.size": 100000,
-               "topic.creation.redo.include": "redo-log-topic",
-               "topic.creation.redo.replication.factor": 1,
-               "topic.creation.redo.partitions": 1,
-               "topic.creation.redo.cleanup.policy": "delete",
-               "topic.creation.redo.retention.ms": 1209600000,
-               "topic.creation.default.replication.factor": 1,
-               "topic.creation.default.partitions": 1,
-               "topic.creation.default.cleanup.policy": "delete",
-               "lob.topic.name.template": "${databaseName}.${schemaName}.${tableName}.${columnName}",
-               "enable.large.lob.object.support":true,
-               "producer.override.linger.ms": "10",
-               "producer.override.batch.size": "500000"
-          }' \
+    "connector.class": "io.confluent.connect.oracle.cdc.OracleCdcSourceConnector",
+    "tasks.max": 2,
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "key.converter.schema.registry.url": "http://schema-registry:8081",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schema.registry.url": "http://schema-registry:8081",
+    "confluent.license": "",
+    "confluent.topic.bootstrap.servers": "broker:9092",
+    "confluent.topic.replication.factor": "1",
+    "producer.override.enable.idempotence": "true",
+    "transforms": "ReplaceField, HoistField",
+    "predicates": "isDEMAND_SAP_DISTRIBUTE_DATA",
+    "topic.creation.groups": "redo",
+    "transforms.ReplaceField.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
+    "transforms.ReplaceField.predicate": "isDEMAND_SAP_DISTRIBUTE_DATA",
+    "transforms.ReplaceField.blacklist": "table, scn, op_type, op_ts, current_ts, row_id, username",
+    "transforms.HoistField.type": "org.apache.kafka.connect.transforms.HoistField$Value",
+    "transforms.HoistField.field": "AGDAforecastSEBA",
+    "transforms.HoistField.predicate": "isDEMAND_SAP_DISTRIBUTE_DATA",
+    "predicates.isDEMAND_SAP_DISTRIBUTE_DATA.type": "org.apache.kafka.connect.transforms.predicates.TopicNameMatches",
+    "predicates.isDEMAND_SAP_DISTRIBUTE_DATA.pattern": ".*o2d.d2p.agda.gross-demand-forecast.json.preprod*",
+    "oracle.server": "oracle",
+    "oracle.port": 1521,
+    "oracle.sid": "XE",
+    "oracle.username": "MYUSER",
+    "oracle.password": "password",
+    "start.from": "snapshot",
+    "redo.log.topic.name": "o2d.d2p.agda.gross-demand-forecast.redo.json.preprod01",
+    "redo.log.corruption.topic": "o2d.d2p.agda.gross-demand-forecast.corrupt.json.preprod01",
+    "redo.log.consumer.bootstrap.servers": "broker:9092",
+    "table.inclusion.regex": ".*AGDA.*",
+    "table.topic.name.template": "o2d.d2p.agda.gross-demand-forecast.json.preprod",
+    "numeric.mapping": "best_fit",
+    "behavior.on.dictionary.mismatch": "log",
+    "behavior.on.unparsable.statement": "log",
+    "oracle.date.mapping": "timestamp",
+    "connection.pool.max.size": 20,
+    "redo.log.row.fetch.size": 100000,
+    "snapshot.row.fetch.size": 100000,
+    "topic.creation.redo.include": "o2d.d2p.agda.gross-demand-forecast.redo.json.preprod01",
+    "topic.creation.redo.replication.factor": 1,
+    "topic.creation.redo.partitions": 1,
+    "topic.creation.redo.cleanup.policy": "delete",
+    "_redo.log.consumer.fetch.min.bytes": "4",
+    "heartbeat.interval.ms": "86400000",
+    "topic.creation.redo.retention.ms": 1209600000,
+    "topic.creation.default.replication.factor": 1,
+    "topic.creation.default.partitions": 1,
+    "topic.creation.default.cleanup.policy": "delete",
+    "lob.topic.name.template": "${databaseName}.${schemaName}.${tableName}.${columnName}",
+    "enable.large.lob.object.support": true,
+    "producer.override.linger.ms": "10",
+    "producer.override.batch.size": "500000",
+    "value.converter.schemas.enable": "false"
+}' \
      http://localhost:8083/connectors/cdc-oracle11-source/config | jq .
 
 log "Waiting 10s for connector to read existing data"
