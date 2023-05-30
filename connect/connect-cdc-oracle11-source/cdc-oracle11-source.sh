@@ -130,9 +130,9 @@ BEGIN
 END;
 /
 
-INSERT INTO AGDA ( ID, PART_NBR, PLANT_ID, MODIFIED_BY, CREATED_DATE, LAST_MODIFIED_DATE, VERSION, FORECAST, CURRENT_ROW, TOTAL_ROWS, PART_QUANTITY, TARGET_DATE, SAP_TYPE, SAP_PERIOD_TYPE, SAP_VERSION,MYCLOB ) VALUES ( 1, 815873, 'SEBA', 'SYSTEM', TO_TIMESTAMP('2023-05-24 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('2023-05-24 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), 0, 1708, 19391, 19471, 114, '20240507', 'LSF', 'D', '02',to_clob('Juxtaposing ethereal intergalactic manifestations, kaleidoscopic supernovae pulsate relentlessly through the cosmic tapestry, igniting nebulous constellations amidst the boundless expanse. Multidimensional echoes resonate with sublime harmonies as shimmering celestial orbs cascade in symphonic crescendos, evoking ineffable wonder. Serendipitous stardust dances upon the celestial stage, entwining with cosmic melodies, an eternal ballet of celestial majesty. Interstellar galaxies spiral in cosmic choreography, entangling serpentine tendrils across the velvety fabric of the universe, a grand symphony of cosmic marvels. Nebulae pirouette in iridescent swirls, their resplendent hues painting the canvas of eternity, a mesmerizing tableau of astral brilliance.') );
-INSERT INTO AGDA ( ID, PART_NBR, PLANT_ID, MODIFIED_BY, CREATED_DATE, LAST_MODIFIED_DATE, VERSION, FORECAST, CURRENT_ROW, TOTAL_ROWS, PART_QUANTITY, TARGET_DATE, SAP_TYPE, SAP_PERIOD_TYPE, SAP_VERSION,MYCLOB ) VALUES ( 2, 815874, 'SEBA', 'SYSTEM', TO_TIMESTAMP('2023-05-24 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('2023-05-24 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), 0, 1708, 19391, 19471, 114, '20240507', 'LSF', 'D', '02',to_clob('Juxtaposing ethereal intergalactic manifestations, kaleidoscopic supernovae pulsate relentlessly through the cosmic tapestry, igniting nebulous constellations amidst the boundless expanse. Multidimensional echoes resonate with sublime harmonies as shimmering celestial orbs cascade in symphonic crescendos, evoking ineffable wonder. Serendipitous stardust dances upon the celestial stage, entwining with cosmic melodies, an eternal ballet of celestial majesty. Interstellar galaxies spiral in cosmic choreography, entangling serpentine tendrils across the velvety fabric of the universe, a grand symphony of cosmic marvels. Nebulae pirouette in iridescent swirls, their resplendent hues painting the canvas of eternity, a mesmerizing tableau of astral brilliance.') );
-INSERT INTO AGDA ( ID, PART_NBR, PLANT_ID, MODIFIED_BY, CREATED_DATE, LAST_MODIFIED_DATE, VERSION, FORECAST, CURRENT_ROW, TOTAL_ROWS, PART_QUANTITY, TARGET_DATE, SAP_TYPE, SAP_PERIOD_TYPE, SAP_VERSION,MYCLOB ) VALUES ( 3, 815875, 'SEBA', 'SYSTEM', TO_TIMESTAMP('2023-05-24 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('2023-05-24 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), 0, 1708, 19391, 19471, 114, '20240507', 'LSF', 'D', '02',to_clob('Juxtaposing ethereal intergalactic manifestations, kaleidoscopic supernovae pulsate relentlessly through the cosmic tapestry, igniting nebulous constellations amidst the boundless expanse. Multidimensional echoes resonate with sublime harmonies as shimmering celestial orbs cascade in symphonic crescendos, evoking ineffable wonder. Serendipitous stardust dances upon the celestial stage, entwining with cosmic melodies, an eternal ballet of celestial majesty. Interstellar galaxies spiral in cosmic choreography, entangling serpentine tendrils across the velvety fabric of the universe, a grand symphony of cosmic marvels. Nebulae pirouette in iridescent swirls, their resplendent hues painting the canvas of eternity, a mesmerizing tableau of astral brilliance.') );
+INSERT INTO AGDA ( ID, PART_NBR, PLANT_ID, MODIFIED_BY, CREATED_DATE, LAST_MODIFIED_DATE, VERSION, FORECAST, CURRENT_ROW, TOTAL_ROWS, PART_QUANTITY, TARGET_DATE, SAP_TYPE, SAP_PERIOD_TYPE, SAP_VERSION,MYCLOB ) VALUES ( 1, 815873, 'SEBA', 'SYSTEM', TO_TIMESTAMP('2023-05-24 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('2023-05-24 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), 0, 1708, 19391, 19471, 114, '20240507', 'LSF', 'D', '02',to_clob('some clob data') );
+INSERT INTO AGDA ( ID, PART_NBR, PLANT_ID, MODIFIED_BY, CREATED_DATE, LAST_MODIFIED_DATE, VERSION, FORECAST, CURRENT_ROW, TOTAL_ROWS, PART_QUANTITY, TARGET_DATE, SAP_TYPE, SAP_PERIOD_TYPE, SAP_VERSION,MYCLOB ) VALUES ( 2, 815874, 'SEBA', 'SYSTEM', TO_TIMESTAMP('2023-05-24 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('2023-05-24 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), 0, 1708, 19391, 19471, 114, '20240507', 'LSF', 'D', '02',to_clob('more clob data') );
+INSERT INTO AGDA ( ID, PART_NBR, PLANT_ID, MODIFIED_BY, CREATED_DATE, LAST_MODIFIED_DATE, VERSION, FORECAST, CURRENT_ROW, TOTAL_ROWS, PART_QUANTITY, TARGET_DATE, SAP_TYPE, SAP_PERIOD_TYPE, SAP_VERSION,MYCLOB ) VALUES ( 3, 815875, 'SEBA', 'SYSTEM', TO_TIMESTAMP('2023-05-24 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('2023-05-24 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), 0, 1708, 19391, 19471, 114, '20240507', 'LSF', 'D', '02',to_clob('even more clobs hahahahh') );
 EOF
 
 log "Creating Oracle source connector"
@@ -142,9 +142,9 @@ curl -X PUT \
     "connector.class": "io.confluent.connect.oracle.cdc.OracleCdcSourceConnector",
     "tasks.max": 2,
     "key.converter": "org.apache.kafka.connect.storage.StringConverter",
-    "key.converter.schema.registry.url": "http://schema-registry:8081",
+    "key.converter.schema.registry.url": "http://localhost:8081",
     "value.converter": "org.apache.kafka.connect.json.JsonConverter",
-    "value.converter.schema.registry.url": "http://schema-registry:8081",
+    "value.converter.schema.registry.url": "http://localhost:8081",
     "confluent.license": "",
     "confluent.topic.bootstrap.servers": "broker:9092",
     "confluent.topic.replication.factor": "1",
@@ -152,9 +152,13 @@ curl -X PUT \
     "transforms": "ReplaceField, HoistField",
     "predicates": "isDEMAND_SAP_DISTRIBUTE_DATA",
     "topic.creation.groups": "redo",
+
+   
+    
     "transforms.ReplaceField.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
     "transforms.ReplaceField.predicate": "isDEMAND_SAP_DISTRIBUTE_DATA",
     "transforms.ReplaceField.blacklist": "table, scn, op_type, op_ts, current_ts, row_id, username",
+    
     "transforms.HoistField.type": "org.apache.kafka.connect.transforms.HoistField$Value",
     "transforms.HoistField.field": "AGDAforecastSEBA",
     "transforms.HoistField.predicate": "isDEMAND_SAP_DISTRIBUTE_DATA",
@@ -190,8 +194,6 @@ curl -X PUT \
     "topic.creation.default.cleanup.policy": "delete",
     "lob.topic.name.template": "${databaseName}.${schemaName}.${tableName}.${columnName}",
     "enable.large.lob.object.support": true,
-    "producer.override.linger.ms": "10",
-    "producer.override.batch.size": "500000",
     "value.converter.schemas.enable": "false"
 }' \
      http://localhost:8083/connectors/cdc-oracle11-source/config | jq .

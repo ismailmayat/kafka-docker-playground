@@ -69,7 +69,7 @@ public class AgdaDataGen {
                     while (!finishExecution.get()) {
                         connection.setAutoCommit(false);
                         java.sql.Clob clobData = connection.createClob();
-                        clobData.setString(1, String.join(" ",faker.lorem().words(4000)));
+                        clobData.setString(1, String.join(" ",faker.lorem().words(100)));
 
                         PreparedStatement stmt = connection.prepareStatement("INSERT INTO AGDA ( PART_NBR, PLANT_ID, MODIFIED_BY, CREATED_DATE, LAST_MODIFIED_DATE, VERSION, FORECAST, CURRENT_ROW, TOTAL_ROWS, PART_QUANTITY, TARGET_DATE, SAP_TYPE, SAP_PERIOD_TYPE, SAP_VERSION, MYCLOB) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                         stmt.setInt(1, faker.number().randomDigitNotZero()); //PART_NBR
