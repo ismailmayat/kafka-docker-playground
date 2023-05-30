@@ -141,10 +141,11 @@ curl -X PUT \
      --data '{
     "connector.class": "io.confluent.connect.oracle.cdc.OracleCdcSourceConnector",
     "tasks.max": 2,
-    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
-    "key.converter.schema.registry.url": "http://localhost:8081",
+
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+  
     "value.converter": "org.apache.kafka.connect.json.JsonConverter",
-    "value.converter.schema.registry.url": "http://localhost:8081",
+  
     "confluent.license": "",
     "confluent.topic.bootstrap.servers": "broker:9092",
     "confluent.topic.replication.factor": "1",
@@ -153,8 +154,6 @@ curl -X PUT \
     "predicates": "isDEMAND_SAP_DISTRIBUTE_DATA",
     "topic.creation.groups": "redo",
 
-   
-    
     "transforms.ReplaceField.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
     "transforms.ReplaceField.predicate": "isDEMAND_SAP_DISTRIBUTE_DATA",
     "transforms.ReplaceField.blacklist": "table, scn, op_type, op_ts, current_ts, row_id, username",
@@ -192,9 +191,9 @@ curl -X PUT \
     "topic.creation.default.replication.factor": 1,
     "topic.creation.default.partitions": 1,
     "topic.creation.default.cleanup.policy": "delete",
-    "lob.topic.name.template": "${databaseName}.${schemaName}.${tableName}.${columnName}",
+    "lob.topic.name.template": "MYCLOB",
     "enable.large.lob.object.support": true,
-    "value.converter.schemas.enable": "false"
+    "value.converter.schemas.enable": false
 }' \
      http://localhost:8083/connectors/cdc-oracle11-source/config | jq .
 
