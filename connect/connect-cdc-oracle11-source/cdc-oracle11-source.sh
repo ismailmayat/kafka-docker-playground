@@ -142,18 +142,24 @@ curl -X PUT \
     "connector.class": "io.confluent.connect.oracle.cdc.OracleCdcSourceConnector",
     "tasks.max": 2,
 
-    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
-  
-    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter": "io.confluent.connect.avro.AvroConverter",
+               "key.converter.schema.registry.url": "http://schema-registry:8081",
+               "value.converter": "io.confluent.connect.avro.AvroConverter",
+               "value.converter.schema.registry.url": "http://schema-registry:8081",
   
     "confluent.license": "",
     "confluent.topic.bootstrap.servers": "broker:9092",
     "confluent.topic.replication.factor": "1",
     "producer.override.enable.idempotence": "true",
-    "transforms": "ReplaceField, HoistField",
-    "predicates": "isDEMAND_SAP_DISTRIBUTE_DATA",
+    "transforms": "ReplaceField, HoistField,flattenKey",
+    "predicates": "isDEMAND_SAP_DISTRIBUTE_DATA,isCLOB",
     "topic.creation.groups": "redo",
 
+    "predicates.isCLOB.pattern": "MYCLOB",
+    "predicates.isCLOB.type": "org.apache.kafka.connect.transforms.predicates.TopicNameMatches",
+    "transforms.flattenKey.type": "org.apache.kafka.connect.transforms.Flatten$Key",
+    "transforms.flattenKey.delimiter": ".",
+    "transforms.flattenKey.predicate": "isCLOB",
     "transforms.ReplaceField.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
     "transforms.ReplaceField.predicate": "isDEMAND_SAP_DISTRIBUTE_DATA",
     "transforms.ReplaceField.blacklist": "table, scn, op_type, op_ts, current_ts, row_id, username",
@@ -192,8 +198,7 @@ curl -X PUT \
     "topic.creation.default.partitions": 1,
     "topic.creation.default.cleanup.policy": "delete",
     "lob.topic.name.template": "MYCLOB",
-    "enable.large.lob.object.support": true,
-    "value.converter.schemas.enable": false
+    "enable.large.lob.object.support": true
 }' \
      http://localhost:8083/connectors/cdc-oracle11-source/config | jq .
 
